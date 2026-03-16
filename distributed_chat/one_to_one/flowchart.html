@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-to-One Chat Flowchart</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .diagram {
+            background: white;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📡 One-to-One Chat Application Flowchart</h1>
+        
+        <div class="diagram">
+            <h2>System Architecture</h2>
+            <div class="mermaid">
+flowchart TB
+    subgraph Server["🖥️ SERVER (Port 12350)"]
+        S1[Start Server]
+        S2[Wait for Client]
+        S3[Accept Connection]
+        S4{Create 2 Threads}
+        S5[Main Thread:<br/>Read Console Input]
+        S6[Listener Thread:<br/>Read Client Messages]
+        S7[Send to Client]
+        S8[Display on Console]
+    end
+    
+    subgraph Client["💻 CLIENT"]
+        C1[Start Client]
+        C2[Connect to Server]
+        C3{Create 2 Threads}
+        C4[Main Thread:<br/>Read Console Input]
+        C5[Listener Thread:<br/>Read Server Messages]
+        C6[Send to Server]
+        C7[Display on Console]
+    end
+    
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    S4 --> S6
+    S5 --> S7
+    S6 --> S8
+    
+    C1 --> C2
+    C2 --> C3
+    C3 --> C4
+    C3 --> C5
+    C4 --> C6
+    C5 --> C7
+    
+    S3 -.->|TCP Connection| C2
+    S7 ==>|Message| C5
+    C6 ==>|Message| S6
+    
+    style Server fill:#dbeafe,stroke:#2563eb,stroke-width:3px
+    style Client fill:#dcfce7,stroke:#16a34a,stroke-width:3px
+    style S1 fill:#3b82f6,color:#fff
+    style C1 fill:#22c55e,color:#fff
+            </div>
+        </div>
+
+        <div class="diagram">
+            <h2>Message Flow Sequence</h2>
+            <div class="mermaid">
+sequenceDiagram
+    participant SC as 🖥️ Server Console
+    participant S as Server Process
+    participant N as 🌐 Network
+    participant C as Client Process
+    participant CC as 💻 Client Console
+    
+    Note over S: Start on Port 12350
+    S->>N: Listen for connections
+    C->>N: Connect to localhost:12350
+    N-->>S: Connection Established ✅
+    N-->>C: Connection Established ✅
+    
+    par Server & Client Ready
+        S->>S: Start Main Thread
+        S->>S: Start Listener Thread
+    and
+        C->>C: Start Main Thread
+        C->>C: Start Listener Thread
+    end
+    
+    Note over SC,CC: Bidirectional Communication
+    
+    SC->>S: Type: "Hello!"
+    S->>N: Send "Server: Hello!"
+    N->>C: Deliver message
+    C->>CC: Display "Server: Hello!"
+    
+    CC->>C: Type: "Hi there!"
+    C->>N: Send "Hi there!"
+    N->>S: Deliver message
+    S->>SC: Display "Client: Hi there!"
+    
+    Note over N: Connection Lost ❌
+    N--xS: IOException
+    S->>SC: "Client disconnected"
+    N--xC: IOException
+    C->>CC: "Disconnected from server"
+            </div>
+        </div>
+
+        <div class="diagram">
+            <h2>Thread Architecture</h2>
+            <div class="mermaid">
+flowchart LR
+    subgraph ServerProc["🖥️ SERVER PROCESS"]
+        direction TB
+        SM[Main Thread<br/>📝 Sends Messages]
+        SL[Listener Thread<br/>👂 Receives Messages]
+    end
+    
+    subgraph Socket["🔌 TCP SOCKET"]
+        direction TB
+        SO[OutputStream]
+        SI[InputStream]
+    end
+    
+    subgraph ClientProc["💻 CLIENT PROCESS"]
+        direction TB
+        CM[Main Thread<br/>📝 Sends Messages]
+        CL[Listener Thread<br/>👂 Receives Messages]
+    end
+    
+    SM -->|Write| SO
+    SO -->|Read| CL
+    
+    CM -->|Write| SI
+    SI -->|Read| SL
+    
+    style ServerProc fill:#dbeafe,stroke:#2563eb,stroke-width:2px
+    style ClientProc fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+    style Socket fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SM fill:#60a5fa
+    style SL fill:#93c5fd
+    style CM fill:#4ade80
+    style CL fill:#86efac
+            </div>
+        </div>
+
+        <div class="diagram">
+            <h2>Complete Flow</h2>
+            <div class="mermaid">
+flowchart TD
+    Start([🚀 Start])
+    
+    subgraph Setup["Setup Phase"]
+        SS[Server: Bind Port 12350]
+        SW[Server: Wait for Client]
+        CC[Client: Connect to Server]
+        Conn{Connection<br/>Successful?}
+    end
+    
+    subgraph Communication["Communication Phase"]
+        T1[Both: Create 2 Threads]
+        T2[Main Thread: Handle Sending]
+        T3[Listener Thread: Handle Receiving]
+        Msg[Exchange Messages]
+    end
+    
+    subgraph End["Termination"]
+        Disc[Connection Lost]
+        Close[Close Sockets]
+        Done([✅ Done])
+    end
+    
+    Start --> SS
+    SS --> SW
+    SW --> CC
+    CC --> Conn
+    Conn -->|Yes| T1
+    Conn -->|No| Close
+    T1 --> T2
+    T1 --> T3
+    T2 --> Msg
+    T3 --> Msg
+    Msg --> Disc
+    Disc --> Close
+    Close --> Done
+    
+    style Start fill:#22c55e,color:#fff
+    style Done fill:#ef4444,color:#fff
+    style Setup fill:#dbeafe,stroke:#2563eb
+    style Communication fill:#dcfce7,stroke:#16a34a
+    style End fill:#fee2e2,stroke:#ef4444
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                useMaxWidth: true
+            }
+        });
+    </script>
+</body>
+</html>

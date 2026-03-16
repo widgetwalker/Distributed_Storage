@@ -1,0 +1,56 @@
+[2026-01-19 23:11:37] o1: connected
+[2026-01-19 23:11:49] o2: connected
+[2026-01-19 23:11:54] o2: READ
+[2026-01-19 23:12:17] o2: APPEND line 4: ok fine bro.
+[2026-01-19 23:12:43] o1: DELETE line 1 (was: 'Welcome to Collaborative Document Editing!')
+[2026-01-19 23:12:53] o1: DELETE line 3 (was: 'ok fine bro.')
+[2026-01-19 23:12:56] o1: DELETE line 2 (was: 'You can edit this document together.')
+[2026-01-19 23:12:58] o1: READ
+[2026-01-19 23:13:04] o1: DELETE line 1 (was: 'This is line 2.')
+[2026-01-19 23:13:17] o2: READ
+[2026-01-19 23:13:25] o2: APPEND line 1: hey guys
+[2026-01-19 23:13:28] o2: READ
+[2026-01-19 23:13:33] o2: disconnected
+[2026-01-19 23:13:37] o1: disconnected
+[2026-01-20 00:06:54] 1: connected
+[2026-01-20 00:08:35] 1: APPEND line 4: hola
+[2026-01-20 00:14:35] 1: disconnected
+[2026-01-20 00:15:14] 1: connected
+[2026-01-20 00:15:50] 1: READ
+[2026-01-20 00:17:25] 1: disconnected
+[2026-01-20 00:19:18] 1: connected
+[2026-01-20 00:19:24] 1: READ
+[2026-01-20 00:20:55] 1: connected
+[2026-01-20 00:21:36] 1: connected
+[2026-01-20 00:21:39] 1: READ
+[2026-01-20 00:22:36] 1: connected
+[2026-01-20 00:22:45] 2: connected
+[2026-01-20 00:22:47] 2: READ
+[2026-01-20 00:22:54] 2: DELETE line 5 (was: 'Use the READ command to view the current state.')
+[2026-01-20 00:22:57] 2: READ
+[2026-01-20 00:23:10] 1: APPEND line 5: upma is good
+[2026-01-20 00:23:17] 2: READ
+[2026-01-27 12:32:43] 1: connected
+[2026-01-27 12:33:52] 1: disconnected
+[2026-01-27 12:55:15] rahul: connected
+[2026-01-27 12:55:22] rahul: READ
+[2026-01-27 12:55:34] rahul: APPEND line 6: 4RAHULRA
+[2026-01-27 12:57:13] rahul: DELETE line 3 (was: 'Line 3: Add your changes here!')
+[2026-01-27 12:58:00] dhee: connected
+[2026-01-27 12:58:05] dhee: APPEND line 6: jgjcjgcjlcksjc
+[2026-01-27 12:59:21] dhee: DELETE line 1 (was: 'This is a sample document for collaborative editing.')
+[2026-01-27 12:59:21] rahul: DELETE line 1 (was: 'You can edit this file from multiple systems.')
+[2026-01-27 12:59:38] rahul: READ
+[2026-01-27 13:05:51] rahul: disconnected
+[2026-02-01 19:02:32] 1: connected as WRITER
+[2026-02-01 19:02:39] 1: READ
+[2026-02-01 19:02:53] 2: connected as READER
+[2026-02-01 19:02:59] 2: READ
+[2026-02-01 19:03:42] 1: DELETE line 2 (was: 'This is line 2.')
+[2026-02-01 19:03:44] 1: READ
+[2026-02-01 19:04:07] 1: READ
+[2026-02-01 19:04:10] 1: switched to READ mode
+[2026-02-01 19:04:16] 2: switched to WRITE mode
+[2026-02-01 19:04:20] 2: disconnected
+[2026-02-01 19:04:22] 1: disconnected
+[2026-02-05 12:09:12] ttt: disconnected

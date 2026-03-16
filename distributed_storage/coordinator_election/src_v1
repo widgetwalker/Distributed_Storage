@@ -1,0 +1,168 @@
+import java.io.*;
+import java.util.*;
+
+public class ClusterManager {
+    private final String myId;
+    private final StorageNode localNode;
+    private final NetworkManager networkManager;
+    private final Map<String, List<String>> globalFiles;
+
+    public ClusterManager(String myId) throws IOException {
+        this.myId = myId;
+        this.globalFiles = new HashMap<>(); // Holds state of A, B, C, D
+
+        // Initialize state for all known nodes
+        for (String id : Arrays.asList("A", "B", "C", "D")) {
+            globalFiles.put(id, new ArrayList<>());
+        }
+
+        this.localNode = new StorageNode(myId);
+        loadLocalState(); // Persistence: Load from disk if exists
+        loadGlobalState(); // Persistence: Load known world state
+
+        this.networkManager = new NetworkManager(myId, this::onNetworkMessage);
+        this.networkManager.startServer();
+
+        // Initial Sync Request
+        networkManager.broadcast("REQUEST_SYNC:" + myId);
+    }
+
+    // --- Core Operations ---
+
+    public boolean storeFile(String fileName) {
+        if (localNode.addFile(fileName)) {
+            saveLocalState();
+            saveGlobalState();
+            broadcastUpdate();
+            return true;
+        }
+        return false; // Storage full handled by Main CLI
+    }
+
+    public boolean deleteFile(String fileName) {
+        if (localNode.deleteFile(fileName)) {
+            saveLocalState();
+            saveGlobalState();
+            broadcastUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    public void broadcastUpdate() {
+        String fileList = String.join(",", localNode.getFiles());
+        networkManager.broadcast("UPDATE:" + myId + ":" + fileList);
+    }
+
+    // --- Network Handling ---
+
+    private void onNetworkMessage(String msg) {
+        String[] parts = msg.split(":", 3);
+        String cmd = parts[0];
+        String senderId = parts.length > 1 ? parts[1] : "";
+
+        switch (cmd) {
+            case "UPDATE":
+                if (parts.length > 2) {
+                    List<String> files = parts[2].isEmpty() ? new ArrayList<>() : Arrays.asList(parts[2].split(","));
+                    globalFiles.put(senderId, files);
+                    saveGlobalState(); // Save everyone else's state too
+                }
+                break;
+            case "REQUEST_SYNC":
+                // Peer just came online and wants our state
+                broadcastUpdate();
+                break;
+            case "STORE_REQUEST":
+                // Another node wants to store a file here (Overflow)
+                if (parts.length > 2) {
+                    String fileName = parts[2];
+                    if (localNode.addFile(fileName)) {
+                        saveLocalState();
+                        saveGlobalState();
+                        broadcastUpdate(); // Tell everyone we accepted it
+                    }
+                }
+                break;
+        }
+    }
+
+    public void requestRemoteStore(String targetId, String fileName) {
+        networkManager.sendToNode(targetId, "STORE_REQUEST:" + myId + ":" + fileName);
+    }
+
+    // --- Persistence ---
+    private void saveLocalState() {
+        try (PrintWriter out = new PrintWriter(new FileWriter("state_" + myId + ".txt"))) {
+            for (String file : localNode.getFiles()) {
+                out.println(file);
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to save state: " + e.getMessage());
+        }
+    }
+
+    private void loadLocalState() {
+        File file = new File("state_" + myId + ".txt");
+        if (!file.exists())
+            return;
+
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                localNode.addFile(line);
+            }
+            // Update global view of SELF
+            globalFiles.put(myId, localNode.getFiles());
+        } catch (IOException e) {
+            System.err.println("Failed to load state: " + e.getMessage());
+        }
+    }
+
+    private void saveGlobalState() {
+        try (PrintWriter out = new PrintWriter(new FileWriter("global_state_" + myId + ".txt"))) {
+            for (Map.Entry<String, List<String>> entry : globalFiles.entrySet()) {
+                if (!entry.getValue().isEmpty()) {
+                    out.println(entry.getKey() + ":" + String.join(",", entry.getValue()));
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to save global state: " + e.getMessage());
+        }
+    }
+
+    private void loadGlobalState() {
+        File file = new File("global_state_" + myId + ".txt");
+        if (!file.exists())
+            return;
+
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                String[] parts = line.split(":", 2);
+                if (parts.length == 2) {
+                    List<String> files = Arrays.asList(parts[1].split(","));
+                    globalFiles.put(parts[0], files);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to load global state: " + e.getMessage());
+        }
+    }
+
+    // --- Getters for UI ---
+
+    public StorageNode getLocalNode() {
+        return localNode;
+    }
+
+    public Map<String, List<String>> getGlobalState() {
+        // Ensure local node is up to date in global map
+        globalFiles.put(myId, localNode.getFiles());
+        return globalFiles;
+    }
+
+    public int getTotalUsage() {
+        return globalFiles.values().stream().mapToInt(List::size).sum();
+    }
+}

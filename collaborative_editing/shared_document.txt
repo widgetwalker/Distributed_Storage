@@ -1,0 +1,4 @@
+Welcome to Collaborative Document Editing!
+You can edit this document together.
+Feel free to add, replace, or delete lines.
+Use the READ command to view the current state.

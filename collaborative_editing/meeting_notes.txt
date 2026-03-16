@@ -1,0 +1,17 @@
+Meeting Notes - January 27, 2026
+================================
+
+Attendees:
+- Alice
+- Bob
+- Charlie
+
+Agenda:
+1. Project updates
+2. Timeline review
+3. Next steps
+
+Action Items:
+[ ] Alice - Complete documentation
+[ ] Bob - Review code changes
+[ ] Charlie - Deploy to staging

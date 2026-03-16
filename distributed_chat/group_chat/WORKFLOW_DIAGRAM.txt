@@ -1,0 +1,409 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                    GROUP CHAT APPLICATION WORKFLOW DIAGRAM                     ║
+║                          Multi-Client Communication System                      ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                           PHASE 1: SYSTEM INITIALIZATION                        │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+                    ┌─────────────────────────────────┐
+                    │   SERVER INITIALIZATION         │
+                    │                                 │
+                    │  • Create ServerSocket          │
+                    │  • Bind to port 12351           │
+                    │  • Initialize clients list      │
+                    │  • Set clientCounter = 0        │
+                    └────────────┬────────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────────────┐
+                    │   SERVER LISTENING STATE        │
+                    │                                 │
+                    │  "Server started on port        │
+                    │   12351. Waiting for clients..."│
+                    └─────────────────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                        PHASE 2: CLIENT CONNECTION WORKFLOW                      │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+    CLIENT SIDE                          SERVER SIDE
+    ───────────                          ───────────
+
+┌─────────────────┐
+│ Start Client    │
+│ Application     │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│ Prompt: "Enter server IP"   │
+│ User inputs IP address      │
+│ (e.g., "localhost" or       │
+│  "192.168.1.100")           │
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│ Attempt connection to       │
+│ server at IP:12351          │
+└────────┬────────────────────┘
+         │
+         │ TCP Connection Request
+         │────────────────────────────────────▶┌──────────────────────┐
+         │                                     │ Accept connection    │
+         │                                     │ clientCounter++      │
+         │                                     └──────────┬───────────┘
+         │                                                │
+         │                                                ▼
+         │                                     ┌──────────────────────┐
+         │                                     │ Create ClientHandler │
+         │                                     │ Add to clients list  │
+         │                                     │ Start new thread     │
+         │                                     └──────────┬───────────┘
+         │                                                │
+         │◀────────────────────────────────────────────────┘
+         │ Connection Established
+         │
+         ▼
+┌─────────────────────────────┐
+│ Display: "Connected to      │
+│ server at <IP>:<port>"      │
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│ Prompt: "Enter username"    │
+│ User inputs username        │
+│ (e.g., "Alice")             │
+└────────┬────────────────────┘
+         │
+         │ Send Username
+         │────────────────────────────────────▶┌──────────────────────┐
+         │                                     │ Receive username     │
+         │                                     │ Store in handler     │
+         │                                     └──────────┬───────────┘
+         │                                                │
+         │                                                ▼
+         │                                     ┌──────────────────────────┐
+         │                                     │ Broadcast to ALL clients:│
+         │                                     │ "*** Alice joined ***"   │
+         │                                     └──────────┬───────────────┘
+         │                                                │
+         │◀────────────────────────────────────────────────┘
+         │ Join notification (to other clients)
+         │
+         ▼
+┌─────────────────────────────┐
+│ Display: "=== Group Chat    │
+│ Started ==="                │
+│                             │
+│ Start Listener Thread       │
+└─────────────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                      PHASE 3: MESSAGE BROADCASTING WORKFLOW                     │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+    CLIENT-1 (Alice)              SERVER                   CLIENT-2 (Bob)
+    ────────────────              ──────                   ──────────────
+
+┌─────────────────┐
+│ Alice types:    │
+│ "Hello Bob!"    │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Send message    │
+│ to server       │
+└────────┬────────┘
+         │
+         │ "Hello Bob!"
+         │─────────────────────▶┌────────────────────────┐
+         │                      │ ClientHandler-1        │
+         │                      │ receives message       │
+         │                      └──────────┬─────────────┘
+         │                                 │
+         │                                 ▼
+         │                      ┌────────────────────────┐
+         │                      │ Format message:        │
+         │                      │ "Alice: Hello Bob!"    │
+         │                      └──────────┬─────────────┘
+         │                                 │
+         │                                 ▼
+         │                      ┌────────────────────────┐
+         │                      │ BROADCAST FUNCTION:    │
+         │                      │                        │
+         │                      │ FOR each client:       │
+         │                      │   IF client ≠ Alice    │
+         │                      │     Send message       │
+         │                      └──────────┬─────────────┘
+         │                                 │
+         │                                 ├──────────────────────────┐
+         │                                 │                          │
+         │                                 ▼                          ▼
+         │                      ┌────────────────────┐    ┌──────────────────┐
+         │                      │ Display on server: │    │ Send to Bob:     │
+         │                      │ "Alice: Hello Bob!"│    │ "Alice: Hello    │
+         │                      └────────────────────┘    │  Bob!"           │
+         │                                                └──────┬───────────┘
+         │                                                       │
+         │                                                       │
+         │                                                       ▼
+         │                                            ┌──────────────────────┐
+         │                                            │ Bob's Listener       │
+         │                                            │ Thread receives      │
+         │                                            └──────────┬───────────┘
+         │                                                       │
+         │                                                       ▼
+         │                                            ┌──────────────────────┐
+         │                                            │ Display on Bob's     │
+         │                                            │ console:             │
+         │                                            │ "Alice: Hello Bob!"  │
+         │                                            └──────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                    PHASE 4: CLIENT DISCONNECTION WORKFLOW                       │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+    CLIENT-1 (Alice)              SERVER                   CLIENT-2 (Bob)
+    ────────────────              ──────                   ──────────────
+
+┌─────────────────┐
+│ Alice presses   │
+│ Ctrl+C or exits │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Close socket    │
+│ and streams     │
+└────────┬────────┘
+         │
+         │ Connection Closed
+         │─────────────────────▶┌────────────────────────┐
+         │                      │ ClientHandler-1        │
+         │                      │ detects disconnection  │
+         │                      │ (readLine returns null)│
+         │                      └──────────┬─────────────┘
+         │                                 │
+         │                                 ▼
+         │                      ┌────────────────────────┐
+         │                      │ Broadcast to all:      │
+         │                      │ "*** Alice left ***"   │
+         │                      └──────────┬─────────────┘
+         │                                 │
+         │                                 ├──────────────────────────┐
+         │                                 │                          │
+         │                                 ▼                          ▼
+         │                      ┌────────────────────┐    ┌──────────────────┐
+         │                      │ Remove Alice from  │    │ Send to Bob:     │
+         │                      │ clients list       │    │ "*** Alice       │
+         │                      │                    │    │  left ***"       │
+         │                      │ Active clients: 1  │    └──────┬───────────┘
+         │                      └────────────────────┘           │
+         │                                                       │
+         │                                                       ▼
+         │                                            ┌──────────────────────┐
+         │                                            │ Bob receives and     │
+         │                                            │ displays:            │
+         │                                            │ "*** Alice left ***" │
+         │                                            │                      │
+         │                                            │ Bob continues        │
+         │                                            │ chatting normally    │
+         │                                            └──────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                         COMPLETE SYSTEM WORKFLOW SUMMARY                        │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                 │
+│   ┌──────────┐         ┌──────────┐         ┌──────────┐                      │
+│   │ Client-1 │         │ Client-2 │         │ Client-N │                      │
+│   │ (Alice)  │         │  (Bob)   │         │(Charlie) │                      │
+│   └─────┬────┘         └─────┬────┘         └─────┬────┘                      │
+│         │                    │                    │                            │
+│         │ Connect            │ Connect            │ Connect                    │
+│         ├────────────────────┼────────────────────┼──────────┐                │
+│         │                    │                    │          │                 │
+│         ▼                    ▼                    ▼          ▼                 │
+│   ┌─────────────────────────────────────────────────────────────┐             │
+│   │                    SERVER (Port 12351)                      │             │
+│   │                                                             │             │
+│   │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │             │
+│   │  │ ClientHandler│  │ ClientHandler│  │ ClientHandler│     │             │
+│   │  │   Thread-1   │  │   Thread-2   │  │   Thread-N   │     │             │
+│   │  │   (Alice)    │  │    (Bob)     │  │  (Charlie)   │     │             │
+│   │  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘     │             │
+│   │         │                 │                 │              │             │
+│   │         └─────────────────┼─────────────────┘              │             │
+│   │                           │                                │             │
+│   │                  ┌────────▼────────┐                       │             │
+│   │                  │  BROADCAST      │                       │             │
+│   │                  │  MECHANISM      │                       │             │
+│   │                  │                 │                       │             │
+│   │                  │ • Synchronized  │                       │             │
+│   │                  │ • Thread-safe   │                       │             │
+│   │                  │ • O(n) per msg  │                       │             │
+│   │                  └─────────────────┘                       │             │
+│   │                                                             │             │
+│   └─────────────────────────────────────────────────────────────┘             │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                            THREAD ARCHITECTURE                                  │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+SERVER PROCESS:
+├── Main Thread (Accept Loop)
+│   └── Continuously accepts new client connections
+│
+├── ClientHandler Thread-1
+│   ├── Reads messages from Client-1
+│   └── Broadcasts to other clients
+│
+├── ClientHandler Thread-2
+│   ├── Reads messages from Client-2
+│   └── Broadcasts to other clients
+│
+└── ClientHandler Thread-N
+    ├── Reads messages from Client-N
+    └── Broadcasts to other clients
+
+
+CLIENT PROCESS:
+├── Main Thread (Sending)
+│   ├── Reads input from console
+│   └── Sends to server
+│
+└── Listener Thread (Receiving)
+    ├── Reads messages from server
+    └── Displays on console
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                         DATA FLOW DIAGRAM                                       │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+                        USER INPUT (Console)
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │  Client Application  │
+                    │                      │
+                    │  • Read from console │
+                    │  • Format message    │
+                    └──────────┬───────────┘
+                               │
+                               │ TCP Socket
+                               ▼
+                    ┌──────────────────────┐
+                    │  Server Application  │
+                    │                      │
+                    │  • Receive message   │
+                    │  • Add username      │
+                    │  • Broadcast to all  │
+                    └──────────┬───────────┘
+                               │
+                ┌──────────────┼──────────────┐
+                │              │              │
+                ▼              ▼              ▼
+         ┌──────────┐   ┌──────────┐   ┌──────────┐
+         │ Client-1 │   │ Client-2 │   │ Client-N │
+         │ (except  │   │          │   │          │
+         │  sender) │   │          │   │          │
+         └─────┬────┘   └─────┬────┘   └─────┬────┘
+               │              │              │
+               ▼              ▼              ▼
+         Display on     Display on     Display on
+         Console        Console        Console
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                      CROSS-NETWORK COMMUNICATION WORKFLOW                       │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+    COMPUTER-1 (Server)                         COMPUTER-2 (Client)
+    ───────────────────                         ───────────────────
+
+┌─────────────────────────┐
+│ Find IP Address:        │
+│ > ipconfig              │
+│ IPv4: 192.168.1.100     │
+└────────┬────────────────┘
+         │
+         ▼
+┌─────────────────────────┐
+│ Start Server:           │
+│ > java GroupChatServer  │
+│                         │
+│ Server binds to         │
+│ 0.0.0.0:12351           │
+│ (all network interfaces)│
+└─────────────────────────┘
+         │
+         │
+         │ Network (LAN/WAN)
+         │◀────────────────────────────────────┐
+         │                                     │
+         │                                     │
+         │                          ┌──────────────────────┐
+         │                          │ Client enters:       │
+         │                          │ "192.168.1.100"      │
+         │                          │                      │
+         │                          │ Connect to           │
+         │                          │ 192.168.1.100:12351  │
+         │                          └──────────────────────┘
+         │                                     │
+         │◀────────────────────────────────────┘
+         │ TCP Connection Established
+         │
+         ▼
+┌─────────────────────────┐
+│ Display:                │
+│ "Client-1 connected:    │
+│  /192.168.1.50"         │
+│                         │
+│ Messages exchanged      │
+│ across network          │
+└─────────────────────────┘
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                              WORKFLOW SUMMARY                                  ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+1. SERVER INITIALIZATION
+   └─▶ Create socket, bind to port, initialize client list
+
+2. CLIENT CONNECTION
+   └─▶ Client connects → Server accepts → Create handler thread → Send username
+
+3. JOIN NOTIFICATION
+   └─▶ Server broadcasts join message to all existing clients
+
+4. MESSAGE EXCHANGE
+   └─▶ Client sends → Server receives → Format → Broadcast to all except sender
+
+5. MONITORING
+   └─▶ Server displays all messages on console for monitoring
+
+6. DISCONNECTION
+   └─▶ Client disconnects → Server detects → Broadcast leave message → Remove client
+
+7. CONTINUATION
+   └─▶ Remaining clients continue chatting normally
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                           END OF WORKFLOW DIAGRAM                              ║
+╚════════════════════════════════════════════════════════════════════════════════╝

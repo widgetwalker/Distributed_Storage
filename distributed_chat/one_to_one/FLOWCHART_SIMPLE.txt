@@ -1,0 +1,157 @@
+# ONE-TO-ONE CHAT - SIMPLE FLOWCHART
+
+## 📊 SYSTEM OVERVIEW
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    ONE-TO-ONE CHAT SYSTEM                       │
+└─────────────────────────────────────────────────────────────────┘
+
+    SERVER SIDE                                    CLIENT SIDE
+    ═══════════                                    ═══════════
+
+┌─────────────────┐                          ┌─────────────────┐
+│  Start Server   │                          │  Start Client   │
+│   Port 12350    │                          │                 │
+└────────┬────────┘                          └────────┬────────┘
+         │                                            │
+         ▼                                            ▼
+┌─────────────────┐                          ┌─────────────────┐
+│ Wait for Client │◄─────────────────────────┤ Connect to      │
+│                 │      TCP Connection      │ localhost:12350 │
+└────────┬────────┘                          └────────┬────────┘
+         │                                            │
+         ▼                                            ▼
+┌─────────────────┐                          ┌─────────────────┐
+│ Accept Client   │                          │ Connection OK   │
+└────────┬────────┘                          └────────┬────────┘
+         │                                            │
+         ▼                                            ▼
+┌─────────────────┐                          ┌─────────────────┐
+│ Create 2 Threads│                          │ Create 2 Threads│
+│                 │                          │                 │
+│ ┌─────────────┐ │                          │ ┌─────────────┐ │
+│ │ Main Thread │ │                          │ │ Main Thread │ │
+│ │  (Send)     │ │                          │ │  (Send)     │ │
+│ └─────────────┘ │                          │ └─────────────┘ │
+│                 │                          │                 │
+│ ┌─────────────┐ │                          │ ┌─────────────┐ │
+│ │   Listener  │ │                          │ │   Listener  │ │
+│ │   Thread    │ │                          │ │   Thread    │ │
+│ │  (Receive)  │ │                          │ │  (Receive)  │ │
+│ └─────────────┘ │                          │ └─────────────┘ │
+└─────────────────┘                          └─────────────────┘
+```
+
+## 💬 MESSAGE FLOW
+
+```
+SERVER                                                    CLIENT
+══════                                                    ══════
+
+1️⃣ Server types message
+   │
+   ├──► "Server: Hello!"
+   │
+   └────────────────────────────────────────────────────►│
+                                                          │
+                                              Client receives & displays
+                                                     "Server: Hello!"
+
+
+2️⃣ Client types message
+                                                          │
+                                                   "Hi there!"
+   │◄────────────────────────────────────────────────────┘
+   │
+Server receives & displays
+   "Client: Hi there!"
+```
+
+## 🧵 THREAD ARCHITECTURE
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                         SERVER PROCESS                        ║
+╠═══════════════════════════════════════════════════════════════╣
+║                                                               ║
+║  ┌──────────────────────┐      ┌──────────────────────┐      ║
+║  │   MAIN THREAD        │      │  LISTENER THREAD     │      ║
+║  │                      │      │                      │      ║
+║  │  • Read console      │      │  • Read from client  │      ║
+║  │  • Send to client    │      │  • Display message   │      ║
+║  │                      │      │                      │      ║
+║  │  [Console Input]     │      │  [Client Input]      │      ║
+║  │        ↓             │      │        ↓             │      ║
+║  │  [Send via Socket]   │      │  [Display Console]   │      ║
+║  └──────────────────────┘      └──────────────────────┘      ║
+║              │                            ▲                   ║
+╚══════════════│════════════════════════════│═══════════════════╝
+               │                            │
+               │      TCP SOCKET            │
+               │    ════════════            │
+               ▼                            │
+╔══════════════│════════════════════════════│═══════════════════╗
+║              │                            │                   ║
+║              ▼                            │                   ║
+║  ┌──────────────────────┐      ┌──────────────────────┐      ║
+║  │   MAIN THREAD        │      │  LISTENER THREAD     │      ║
+║  │                      │      │                      │      ║
+║  │  • Read console      │      │  • Read from server  │      ║
+║  │  • Send to server    │      │  • Display message   │      ║
+║  │                      │      │                      │      ║
+║  │  [Console Input]     │      │  [Server Input]      │      ║
+║  │        ↓             │      │        ↓             │      ║
+║  │  [Send via Socket]   │      │  [Display Console]   │      ║
+║  └──────────────────────┘      └──────────────────────┘      ║
+║                                                               ║
+╠═══════════════════════════════════════════════════════════════╣
+║                         CLIENT PROCESS                        ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+## 🔄 STEP-BY-STEP FLOW
+
+```
+STEP 1: Server Startup
+   ┌─────────────────────────────────────┐
+   │ java oneToOneServer                 │
+   │ → Binds to port 12350               │
+   │ → Waits for connection              │
+   └─────────────────────────────────────┘
+
+STEP 2: Client Connection
+   ┌─────────────────────────────────────┐
+   │ java oneToOneClient                 │
+   │ → Connects to localhost:12350       │
+   │ → Connection established ✓          │
+   └─────────────────────────────────────┘
+
+STEP 3: Thread Creation (Both Sides)
+   ┌─────────────────────────────────────┐
+   │ Main Thread: Handles sending        │
+   │ Listener Thread: Handles receiving  │
+   └─────────────────────────────────────┘
+
+STEP 4: Bidirectional Communication
+   ┌─────────────────────────────────────┐
+   │ Server → Client: "Server: message"  │
+   │ Client → Server: "message"          │
+   │ (displayed as "Client: message")    │
+   └─────────────────────────────────────┘
+
+STEP 5: Disconnection
+   ┌─────────────────────────────────────┐
+   │ Either side closes                  │
+   │ → IOException caught                │
+   │ → "Disconnected" message shown      │
+   └─────────────────────────────────────┘
+```
+
+## 📝 KEY POINTS
+
+✅ Port: 12350
+✅ Protocol: TCP Socket
+✅ Threading: 2 threads per process (Send + Receive)
+✅ Message Format: Server prefixes "Server:", Client messages shown as "Client:"
+✅ Bidirectional: Both can send/receive simultaneously
