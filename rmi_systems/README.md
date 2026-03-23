@@ -14,6 +14,9 @@ An advanced RMI calculator for financial and simple interest calculations.
 ### 🔐 [Login & Authentication](./login)
 A distributed authentication module where the server manages credentials and authenticates remote clients.
 
+### 🌐 [DNS Resolver](./dns)
+A Domain Name System (DNS) application using Java RMI that efficiently resolves domain names to IP addresses across distributed networks.
+
 ## 🏃 Running RMI
 
 1. **Start RMI Registry**:
