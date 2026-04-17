@@ -13,6 +13,7 @@ A comprehensive collection of distributed systems research, large-scale applicat
 | :--- | :---: | :--- | :---: |
 | **QUIZ MASTER** | Java | A multi-tier, GUI-based distributed quiz application with Server-Client architecture. | [View Project](./QUIZ_MASTER) |
 | **DS LAB** | Python | A collection of 10 core distributed algorithms refactored for modern network execution. | [View Project](./DS_LAB) |
+| **Distributed Chat** | Python | A multi-room chat server implementation supporting concurrent users. | [View Project](./distributed_chat) |
 | **Distributed Storage** | Python | Implementation of scalable storage nodes with data replication logic. | [View Project](./distributed_storage) |
 | **Collaborative Editor** | Python | Real-time concurrent editing system using version vectors and conflict resolution. | [View Project](./collaborative_editing) |
 | **RMI Systems** | Python | Remote Method Invocation (RMI) and simulate RPC simulations. | [View Project](./rmi_systems) |
@@ -44,20 +45,21 @@ All internal projects and lab experiments are designed for **multi-machine execu
 - **Binding**: Masters/Servers bind to `0.0.0.0` to listen on all interfaces.
 - **Connecting**: Clients/Workers use the host machine's LAN IP address (e.g., `192.168.x.x`).
 
-### **Prerequisites**
-- **Python**: Recommended 3.11+ for `DS_LAB` and `distributed_chat`.
-- **Java**: JDK 17+ for `QUIZ_MASTER`.
-
 ---
 
 ## 📊 Technical Architecture
 ```mermaid
 graph TD
-    A[Root Directory] --> B[QUIZ_MASTER - Java Application]
-    A --> C[DS_LAB - Algorithm Gallery]
-    A --> D[Research Modules - Storage/Editing]
-    B -- RMI/Socket --> E[Database/Clients]
-    C -- Parallel Execution --> F[Worker Node Network]
+    Root[Distributed Systems Repo] --> JavaApp[QUIZ_MASTER]
+    Root --> Lab[DS_LAB - 10 Exps]
+    Root --> Chat[Distributed Chat]
+    Root --> Storage[Distributed Storage]
+    Root --> Editor[Collaborative Editing]
+    Root --> RMI[RMI Systems]
+
+    JavaApp -- "Java Sockets/RMI" --> JClients[Multi-tier Clients]
+    Lab -- "Parallel Execution" --> Workers[Worker Node Network]
+    Storage -- "Replication" --> Replica[Data Nodes]
 ```
 
 *Maintained by widgetwalker/Distributed_Storage*
