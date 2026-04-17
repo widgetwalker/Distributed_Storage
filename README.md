@@ -12,6 +12,7 @@ A comprehensive collection of distributed systems research, large-scale applicat
 | Project | Language | Description | Link |
 | :--- | :---: | :--- | :---: |
 | **QUIZ MASTER** | Java | A multi-tier, GUI-based distributed quiz application with Server-Client architecture. | [View Project](./QUIZ_MASTER) |
+| **DS LAB** | Python | A collection of 10 core distributed algorithms refactored for modern network execution. | [View Project](./DS_LAB) |
 | **Distributed Storage** | Python | Implementation of scalable storage nodes with data replication logic. | [View Project](./distributed_storage) |
 | **Collaborative Editor** | Python | Real-time concurrent editing system using version vectors and conflict resolution. | [View Project](./collaborative_editing) |
 | **RMI Systems** | Python | Remote Method Invocation (RMI) and simulate RPC simulations. | [View Project](./rmi_systems) |
