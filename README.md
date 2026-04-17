@@ -1,54 +1,62 @@
-# 🌐 Distributed Systems Lab (DS_LAB)
-![Distributed Systems](https://img.shields.io/badge/Laboratory-Distributed%20Systems-blueviolet?style=for-the-badge&logo=git)
-![Python](https://img.shields.io/badge/Language-Python%203.11+-blue?style=for-the-badge&logo=python)
-![Status](https://img.shields.io/badge/Lab%20Status-10%2F10%20Completed-success?style=for-the-badge)
+# 🪐 Distributed Systems Portfolio
+![Lab Status](https://img.shields.io/badge/Laboratory-DS__LAB%20(10/10)-blueviolet?style=for-the-badge)
+![Languages](https://img.shields.io/badge/Stack-Python%20|%20Java-blue?style=for-the-badge)
+![GitHub](https://img.shields.io/badge/Repo-Distributed__Systems-orange?style=for-the-badge)
 
-A comprehensive implementation of core Distributed Systems algorithms refactored for **Full-Duplex**, **Multi-Node**, and **Network-Ready** execution.
-
----
-
-## 🚀 Lab Dashboard
-
-| # | Experiment Name | Focus Area | Status |
-|---|---|---|---|
-| 03 | [Message Passing](./DS_LAB/message_passing) | Full-Duplex Messenger | ✅ Done |
-| 04 | [Lamport Clock](./DS_LAB/lamport_clock) | Event Ordering | ✅ Done |
-| 08 | [Berkeley Sync](./DS_LAB/berkeley_sync) | Clock Synchronization | ✅ Done |
-| 10 | [Lamport Mutex](./DS_LAB/lamport_mutex) | Mutual Exclusion | ✅ Done |
-| 11 | [Ricart-Agrawala](./DS_LAB/ricart_agrawala) | Op. Mutual Exclusion | ✅ Done |
-| 13 | [Chat App](./DS_LAB/chat_app) | Async Networking | ✅ Done |
-| 16 | [Deadlock Detection](./DS_LAB/deadlock_detection) | Wait-For Graphs | ✅ Done |
-| 19 | [Distributed Sorting](./DS_LAB/distributed_sorting) | Data Parallelism | ✅ Done |
-| 20 | [MapReduce](./DS_LAB/mapreduce) | Distributed Processing | ✅ Done |
-| 21 | [Prime Calculation](./DS_LAB/prime_calculation) | Resource Splitting | ✅ Done |
+A comprehensive collection of distributed systems research, large-scale applications, and fundamental algorithms. This repository spans from low-level socket coordination to high-level multi-tier Java applications.
 
 ---
 
-## 🛠️ General Setup
-Each experiment is designed to run across multiple physical machines or local terminals.
+## 🏗️ Core Distributed Projects
+
+| Project | Language | Description | Link |
+| :--- | :---: | :--- | :---: |
+| **QUIZ MASTER** | Java | A multi-tier, GUI-based distributed quiz application with Server-Client architecture. | [View Project](./QUIZ_MASTER) |
+| **Distributed Storage** | Python | Implementation of scalable storage nodes with data replication logic. | [View Project](./distributed_storage) |
+| **Collaborative Editor** | Python | Real-time concurrent editing system using version vectors and conflict resolution. | [View Project](./collaborative_editing) |
+| **RMI Systems** | Python | Remote Method Invocation (RMI) and simulate RPC simulations. | [View Project](./rmi_systems) |
+
+---
+
+## 🧪 The DS Lab (10 Experiments)
+*A structured implementation of classic distributed algorithms refactored for modern network execution.*
+
+| Exp | Module | Aim | Status |
+| :--- | :--- | :--- | :---: |
+| 03 | **Message Passing** | Bidirectional communication between two processes. | ✅ |
+| 04 | **Lamport Clock** | Logical clock algorithm for event ordering. | ✅ |
+| 08 | **Berkeley Sync** | Master-Slave clock synchronization. | ✅ |
+| 10 | **Lamport Mutex** | Distributed Mutual Exclusion (Shared Queue). | ✅ |
+| 11 | **Ricart-Agrawala** | Optimized Mutex (Deferred Replies). | ✅ |
+| 13 | **Chat App** | simple Distributed Chat Application using sockets. | ✅ |
+| 16 | **Deadlock Detect** | Distributed Deadlock Detection (Wait-for graph). | ✅ |
+| 19 | **Dist. Sorting** | Merge Sort / Quick Sort across worker nodes. | ✅ |
+| 20 | **MapReduce** | Data processing simulation for Word Count. | ✅ |
+| 21 | **Prime Calc** | Calculation of primes across split ranges. | ✅ |
+
+---
+
+## 🛠️ Global Setup Notes
+
+### **Network Configuration**
+All internal projects and lab experiments are designed for **multi-machine execution**. 
+- **Binding**: Masters/Servers bind to `0.0.0.0` to listen on all interfaces.
+- **Connecting**: Clients/Workers use the host machine's LAN IP address (e.g., `192.168.x.x`).
 
 ### **Prerequisites**
-- **Networking**: Ensure all machines are on the same LAN/Wi-Fi.
-- **Firewall**: Temporarily allow the chosen ports (default is usually `5000+` or `9000+`).
-- **Python**: Version 3.8+ recommended.
-
-### **Execution Model**
-Most programs follow the **Master/Worker** or **P2P Node** model:
-1. **Start the Master/Server** first to bind the port.
-2. **Start the Workers/Nodes** and provide the Master's LAN IP address.
-3. Every program will prompt you for a **Name** to make logs readable.
+- **Python**: Recommended 3.11+ for `DS_LAB` and `distributed_chat`.
+- **Java**: JDK 17+ for `QUIZ_MASTER`.
 
 ---
 
-## 🏗️ Technical Architecture
+## 📊 Technical Architecture
 ```mermaid
 graph TD
-    A[Master/Server] -- Assignments --> B[Worker 1]
-    A -- Assignments --> C[Worker 2]
-    B -- Results --> A
-    C -- Results --> A
-    D[Node A] <-> E[Node B]
-    E <-> F[Node C]
+    A[Root Directory] --> B[QUIZ_MASTER - Java Application]
+    A --> C[DS_LAB - Algorithm Gallery]
+    A --> D[Research Modules - Storage/Editing]
+    B -- RMI/Socket --> E[Database/Clients]
+    C -- Parallel Execution --> F[Worker Node Network]
 ```
 
-*Created by Antigravity AI*
+*Maintained by widgetwalker/Distributed_Storage*
