@@ -1,76 +1,54 @@
-# 🌌 Distributed Systems Lab & Core Implementations
+# 🌐 Distributed Systems Lab (DS_LAB)
+![Distributed Systems](https://img.shields.io/badge/Laboratory-Distributed%20Systems-blueviolet?style=for-the-badge&logo=git)
+![Python](https://img.shields.io/badge/Language-Python%203.11+-blue?style=for-the-badge&logo=python)
+![Status](https://img.shields.io/badge/Lab%20Status-10%2F10%20Completed-success?style=for-the-badge)
 
-Welcome to the **Ultimate Distributed Systems Repository**. This project is a curated collection of core distributed computing concepts, ranging from network-level communication to high-level system coordination.
-
-![Logo](https://img.shields.io/badge/Distributed_Systems-Workspace-blue?style=for-the-badge&logo=apache-spark&logoColor=white) 
-![Status](https://img.shields.io/badge/Maintenance-Active-green?style=for-the-badge)
-![Language](https://img.shields.io/badge/Language-Java_%7C_Python-orange?style=for-the-badge&logo=java)
-
----
-
-## 🏗️ Repository Architecture
-
-This repository is organized into distinct categories, each representing a major pillar of distributed computing:
-
-| Category | Description | Key Technologies |
-| :--- | :--- | :--- |
-| [📂 **Collaborative Editing**](./collaborative_editing) | Mutex-controlled real-time document editing system. | Java Sockets, Multi-threading |
-| [📂 **Distributed Chat**](./distributed_chat) | Hybrid communication platform for 1-to-1 and group chats. | TCP Sockets, Socket Handlers |
-| [📂 **Distributed Storage**](./distributed_storage) | Fault-tolerant storage with Coordinator Election. | Bully Algorithm, Python GUI |
-| [📂 **RMI Systems**](./rmi_systems) | High-level procedure calls for arithmetic and authentication. | Java RMI, Registry |
-| [📂 **Utility Scripts**](./scripts) | Automation tools for compilation and deployment. | Batch, PowerShell |
+A comprehensive implementation of core Distributed Systems algorithms refactored for **Full-Duplex**, **Multi-Node**, and **Network-Ready** execution.
 
 ---
 
-## 🚀 Quick Navigation
+## 🚀 Lab Dashboard
 
-> [!TIP]
-> Each folder contains its own specialized README with deep-dive technical documentation and usage instructions.
-
-### 👥 Collaborative Editing
-Build to demonstrate real-time synchronization and concurrency control.
-- [Documentation](./collaborative_editing/README.md)
-- [Server Implementation](./collaborative_editing/CollaborativeEditingServer.java)
-
-### 💬 Distributed Chat 
-Sophisticated message routing across distributed nodes.
-- [Group Chat](./distributed_chat/group_chat)
-- [One-to-One](./distributed_chat/one_to_one)
-- [Hybrid Mode](./distributed_chat/hybrid_chat)
-
-### 📦 Distributed Storage
-Focuses on the **Bully Algorithm** for leader election and storage resilience.
-- [Coordinator Election](./distributed_storage/coordinator_election)
-- [Storage GUI](./distributed_storage/basic_sender_receiver)
-
-### 🔌 RMI Systems
-Implementing remote procedure calls for complex computations.
-- [Arithmetic Engine](./rmi_systems/arithmetic_core)
-- [Auth System](./rmi_systems/login)
+| # | Experiment Name | Focus Area | Status |
+|---|---|---|---|
+| 03 | [Message Passing](./DS_LAB/message_passing) | Full-Duplex Messenger | ✅ Done |
+| 04 | [Lamport Clock](./DS_LAB/lamport_clock) | Event Ordering | ✅ Done |
+| 08 | [Berkeley Sync](./DS_LAB/berkeley_sync) | Clock Synchronization | ✅ Done |
+| 10 | [Lamport Mutex](./DS_LAB/lamport_mutex) | Mutual Exclusion | ✅ Done |
+| 11 | [Ricart-Agrawala](./DS_LAB/ricart_agrawala) | Op. Mutual Exclusion | ✅ Done |
+| 13 | [Chat App](./DS_LAB/chat_app) | Async Networking | ✅ Done |
+| 16 | [Deadlock Detection](./DS_LAB/deadlock_detection) | Wait-For Graphs | ✅ Done |
+| 19 | [Distributed Sorting](./DS_LAB/distributed_sorting) | Data Parallelism | ✅ Done |
+| 20 | [MapReduce](./DS_LAB/mapreduce) | Distributed Processing | ✅ Done |
+| 21 | [Prime Calculation](./DS_LAB/prime_calculation) | Resource Splitting | ✅ Done |
 
 ---
 
-## 🛠️ Global Setup
+## 🛠️ General Setup
+Each experiment is designed to run across multiple physical machines or local terminals.
 
-To compile all Java projects in the main root (Legacy Batch):
-```bash
-./scripts/compile.bat
+### **Prerequisites**
+- **Networking**: Ensure all machines are on the same LAN/Wi-Fi.
+- **Firewall**: Temporarily allow the chosen ports (default is usually `5000+` or `9000+`).
+- **Python**: Version 3.8+ recommended.
+
+### **Execution Model**
+Most programs follow the **Master/Worker** or **P2P Node** model:
+1. **Start the Master/Server** first to bind the port.
+2. **Start the Workers/Nodes** and provide the Master's LAN IP address.
+3. Every program will prompt you for a **Name** to make logs readable.
+
+---
+
+## 🏗️ Technical Architecture
+```mermaid
+graph TD
+    A[Master/Server] -- Assignments --> B[Worker 1]
+    A -- Assignments --> C[Worker 2]
+    B -- Results --> A
+    C -- Results --> A
+    D[Node A] <-> E[Node B]
+    E <-> F[Node C]
 ```
 
-To start individual modules, refer to the category-specific documentation.
-
----
-
-## ✨ Features Breakdown
-
-- ⚡ **Real-time Synchronization** in collaborative tools.
-- 🗳️ **Leader Election Algorithms** (Bully Algorithm) for cluster management.
-- 🔐 **Authentication Layers** using RMI.
-- 💬 **Multi-threaded Handlers** for high-concurrency chat systems.
-
----
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%">
-  <p><i>Crafted for Distributed Systems Excellence</i></p>
-</div>
+*Created by Antigravity AI*
