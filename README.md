@@ -1,5 +1,5 @@
 # 🪐 Distributed Systems Portfolio
-![Lab Status](https://img.shields.io/badge/Laboratory-DS__LAB%20(10/10)-blueviolet?style=for-the-badge)
+![Lab Status](https://img.shields.io/badge/Laboratory-DS__LAB%20(11/11)-blueviolet?style=for-the-badge)
 ![Languages](https://img.shields.io/badge/Stack-Python%20|%20Java-blue?style=for-the-badge)
 ![GitHub](https://img.shields.io/badge/Repo-Distributed__Systems-orange?style=for-the-badge)
 
@@ -12,7 +12,7 @@ A comprehensive collection of distributed systems research, large-scale applicat
 | Project | Language | Description | Link |
 | :--- | :---: | :--- | :---: |
 | **QUIZ MASTER** | Java | A multi-tier, GUI-based distributed quiz application with Server-Client architecture. | [View Project](./QUIZ_MASTER) |
-| **DS LAB** | Python | A collection of 10 core distributed algorithms refactored for modern network execution. | [View Project](./DS_LAB) |
+| **DS LAB** | Python | A collection of 11 core distributed algorithms refactored for modern network execution. | [View Project](./DS_LAB) |
 | **Distributed Chat** | Python | A multi-room chat server implementation supporting concurrent users. | [View Project](./distributed_chat) |
 | **Distributed Storage** | Python | Implementation of scalable storage nodes with data replication logic. | [View Project](./distributed_storage) |
 | **Collaborative Editor** | Python | Real-time concurrent editing system using version vectors and conflict resolution. | [View Project](./collaborative_editing) |
@@ -20,7 +20,7 @@ A comprehensive collection of distributed systems research, large-scale applicat
 
 ---
 
-## 🧪 The DS Lab (10 Experiments)
+## 🧪 The DS Lab (11 Experiments)
 *A structured implementation of classic distributed algorithms refactored for modern network execution.*
 
 | Exp | Module | Aim | Status |
@@ -35,6 +35,7 @@ A comprehensive collection of distributed systems research, large-scale applicat
 | 19 | **Dist. Sorting** | Merge Sort / Quick Sort across worker nodes. | ✅ |
 | 20 | **MapReduce** | Data processing simulation for Word Count. | ✅ |
 | 21 | **Prime Calc** | Calculation of primes across split ranges. | ✅ |
+| 22 | **Parallel Search** | Distributed file search using keyword matching. | ✅ |
 
 ---
 
@@ -51,11 +52,12 @@ All internal projects and lab experiments are designed for **multi-machine execu
 ```mermaid
 graph TD
     Root[Distributed Systems Repo] --> JavaApp[QUIZ_MASTER]
-    Root --> Lab[DS_LAB - 10 Exps]
+    Root --> Lab[DS_LAB - 11 Exps]
     Root --> Chat[Distributed Chat]
     Root --> Storage[Distributed Storage]
     Root --> Editor[Collaborative Editing]
     Root --> RMI[RMI Systems]
+    Root --> Search[Parallel File Search]
 
     JavaApp -- "Java Sockets/RMI" --> JClients[Multi-tier Clients]
     Lab -- "Parallel Execution" --> Workers[Worker Node Network]
