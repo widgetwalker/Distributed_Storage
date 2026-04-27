@@ -1,0 +1,200 @@
+TransactionServer started on port 7777
+Participants: [PARTITION-C, PARTITION-B, PARTITION-A]
+Waiting for client connections...
+
+New client connected: /127.0.0.1
+Received transaction from DEMO-CLIENT: 3b145382-30fb-4016-8056-84923a4e28d7
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 3b145382-30fb-4016-8056-84923a4e28d7 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-C] Preparing operation: Operation[d2a8 WRITE key=account:102 val=3000]
+[PARTITION-A] Preparing operation: Operation[4006 WRITE key=account:101 val=5000]
+[PARTITION-A] PREPARED: key=account:101 value=5000
+[PARTITION-C] PREPARED: key=account:102 value=3000
+[PARTITION-C] VOTE: YES
+[PARTITION-A] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[4006 WRITE key=account:101 val=5000]
+[PARTITION-A] COMMITTED: key=account:101
+[PARTITION-C] Committing: Operation[d2a8 WRITE key=account:102 val=3000]
+[PARTITION-C] COMMITTED: key=account:102
+=== TRANSACTION COMMITTED: 3b145382-30fb-4016-8056-84923a4e28d7 ===
+
+Received transaction from DEMO-CLIENT: c06a7d34-6258-47e6-b4ce-bae144bb0cd7
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for c06a7d34-6258-47e6-b4ce-bae144bb0cd7 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-A] Preparing operation: Operation[b727 READ key=account:101 val=null]
+[PARTITION-A] VOTE: YES
+[PARTITION-B] Preparing operation: Operation[4084 WRITE key=account:103 val=10000]
+[PARTITION-B] PREPARED: key=account:103 value=10000
+[PARTITION-B] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[b727 READ key=account:101 val=null]
+[PARTITION-B] Committing: Operation[4084 WRITE key=account:103 val=10000]
+[PARTITION-B] COMMITTED: key=account:103
+=== TRANSACTION COMMITTED: c06a7d34-6258-47e6-b4ce-bae144bb0cd7 ===
+
+Received transaction from DEMO-CLIENT: 7231e3bc-c68e-4143-b1bd-16e0351e8805
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 7231e3bc-c68e-4143-b1bd-16e0351e8805 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-C] Preparing operation: Operation[2cfa WRITE key=log:audit val=complete]
+[PARTITION-C] PREPARED: key=log:audit value=complete
+[PARTITION-C] VOTE: YES
+[PARTITION-B] Preparing operation: Operation[7a7f DELETE key=temp:data val=null]
+[PARTITION-B] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-B] Committing: Operation[7a7f DELETE key=temp:data val=null]
+[PARTITION-C] Committing: Operation[2cfa WRITE key=log:audit val=complete]
+[PARTITION-C] COMMITTED: key=log:audit
+=== TRANSACTION COMMITTED: 7231e3bc-c68e-4143-b1bd-16e0351e8805 ===
+
+Client closed connection: /127.0.0.1
+New client connected: /127.0.0.1
+Received transaction from DEMO-CLIENT: 63080145-c99c-460e-8e12-03f3d2ca473e
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 63080145-c99c-460e-8e12-03f3d2ca473e ===
+--- PHASE 1: PREPARE ---
+[PARTITION-C] Preparing operation: Operation[c7bb WRITE key=account:102 val=3000]
+[PARTITION-C] PREPARED: key=account:102 value=3000
+[PARTITION-C] VOTE: YES
+[PARTITION-A] Preparing operation: Operation[d39f WRITE key=account:101 val=5000]
+[PARTITION-A] PREPARED: key=account:101 value=5000
+[PARTITION-A] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[d39f WRITE key=account:101 val=5000]
+[PARTITION-A] COMMITTED: key=account:101
+[PARTITION-C] Committing: Operation[c7bb WRITE key=account:102 val=3000]
+[PARTITION-C] COMMITTED: key=account:102
+=== TRANSACTION COMMITTED: 63080145-c99c-460e-8e12-03f3d2ca473e ===
+
+Received transaction from DEMO-CLIENT: 50292160-5789-4100-a5e5-0f2e144e8355
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 50292160-5789-4100-a5e5-0f2e144e8355 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-A] Preparing operation: Operation[eae6 READ key=account:101 val=null]
+[PARTITION-A] VOTE: YES
+[PARTITION-B] Preparing operation: Operation[7808 WRITE key=account:103 val=10000]
+[PARTITION-B] PREPARED: key=account:103 value=10000
+[PARTITION-B] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[eae6 READ key=account:101 val=null]
+[PARTITION-B] Committing: Operation[7808 WRITE key=account:103 val=10000]
+[PARTITION-B] COMMITTED: key=account:103
+=== TRANSACTION COMMITTED: 50292160-5789-4100-a5e5-0f2e144e8355 ===
+
+Received transaction from DEMO-CLIENT: 538c5842-aed2-4763-b5eb-36e612d3fd08
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 538c5842-aed2-4763-b5eb-36e612d3fd08 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-B] Preparing operation: Operation[fb88 DELETE key=temp:data val=null]
+[PARTITION-C] Preparing operation: Operation[dde6 WRITE key=log:audit val=complete]
+[PARTITION-C] PREPARED: key=log:audit value=complete
+[PARTITION-C] VOTE: YES
+[PARTITION-B] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-B] Committing: Operation[fb88 DELETE key=temp:data val=null]
+[PARTITION-C] Committing: Operation[dde6 WRITE key=log:audit val=complete]
+[PARTITION-C] COMMITTED: key=log:audit
+=== TRANSACTION COMMITTED: 538c5842-aed2-4763-b5eb-36e612d3fd08 ===
+
+Client closed connection: /127.0.0.1
+New client connected: /127.0.0.1
+Received transaction from DEMO-CLIENT: dfabe0bf-6ba2-47c0-9a6c-1a3b3497436d
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for dfabe0bf-6ba2-47c0-9a6c-1a3b3497436d ===
+--- PHASE 1: PREPARE ---
+[PARTITION-A] Preparing operation: Operation[70ac WRITE key=account:101 val=5000]
+[PARTITION-A] PREPARED: key=account:101 value=5000
+[PARTITION-A] VOTE: YES
+[PARTITION-C] Preparing operation: Operation[1c0a WRITE key=account:102 val=3000]
+[PARTITION-C] PREPARED: key=account:102 value=3000
+[PARTITION-C] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[70ac WRITE key=account:101 val=5000]
+[PARTITION-A] COMMITTED: key=account:101
+[PARTITION-C] Committing: Operation[1c0a WRITE key=account:102 val=3000]
+[PARTITION-C] COMMITTED: key=account:102
+=== TRANSACTION COMMITTED: dfabe0bf-6ba2-47c0-9a6c-1a3b3497436d ===
+
+Received transaction from DEMO-CLIENT: dfa909a4-76a2-4579-a1ed-922e4db465c9
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for dfa909a4-76a2-4579-a1ed-922e4db465c9 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-B] Preparing operation: Operation[85ec WRITE key=account:103 val=10000]
+[PARTITION-B] PREPARED: key=account:103 value=10000
+[PARTITION-B] VOTE: YES
+[PARTITION-A] Preparing operation: Operation[c8eb READ key=account:101 val=null]
+[PARTITION-A] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[c8eb READ key=account:101 val=null]
+[PARTITION-B] Committing: Operation[85ec WRITE key=account:103 val=10000]
+[PARTITION-B] COMMITTED: key=account:103
+=== TRANSACTION COMMITTED: dfa909a4-76a2-4579-a1ed-922e4db465c9 ===
+
+Received transaction from DEMO-CLIENT: 0332e934-24ed-44bc-8f5d-929afcd81a7c
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 0332e934-24ed-44bc-8f5d-929afcd81a7c ===
+--- PHASE 1: PREPARE ---
+[PARTITION-B] Preparing operation: Operation[c2ee DELETE key=temp:data val=null]
+[PARTITION-C] Preparing operation: Operation[21f7 WRITE key=log:audit val=complete]
+[PARTITION-C] PREPARED: key=log:audit value=complete
+[PARTITION-C] VOTE: YES
+[PARTITION-B] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-B] Committing: Operation[c2ee DELETE key=temp:data val=null]
+[PARTITION-C] Committing: Operation[21f7 WRITE key=log:audit val=complete]
+[PARTITION-C] COMMITTED: key=log:audit
+=== TRANSACTION COMMITTED: 0332e934-24ed-44bc-8f5d-929afcd81a7c ===
+
+Client closed connection: /127.0.0.1
+New client connected: /127.0.0.1
+Received transaction from DEMO-CLIENT: 85fcf635-e8c9-41f0-8b34-6e663a7278c7
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 85fcf635-e8c9-41f0-8b34-6e663a7278c7 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-A] Preparing operation: Operation[e865 WRITE key=account:101 val=5000]
+[PARTITION-A] PREPARED: key=account:101 value=5000
+[PARTITION-A] VOTE: YES
+[PARTITION-C] Preparing operation: Operation[4564 WRITE key=account:102 val=3000]
+[PARTITION-C] PREPARED: key=account:102 value=3000
+[PARTITION-C] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[e865 WRITE key=account:101 val=5000]
+[PARTITION-A] COMMITTED: key=account:101
+[PARTITION-C] Committing: Operation[4564 WRITE key=account:102 val=3000]
+[PARTITION-C] COMMITTED: key=account:102
+=== TRANSACTION COMMITTED: 85fcf635-e8c9-41f0-8b34-6e663a7278c7 ===
+
+Received transaction from DEMO-CLIENT: 262fe7fd-2259-4f5f-9942-6751be657bcb
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for 262fe7fd-2259-4f5f-9942-6751be657bcb ===
+--- PHASE 1: PREPARE ---
+[PARTITION-B] Preparing operation: Operation[eda8 WRITE key=account:103 val=10000]
+[PARTITION-A] Preparing operation: Operation[36c3 READ key=account:101 val=null]
+[PARTITION-A] VOTE: YES
+[PARTITION-B] PREPARED: key=account:103 value=10000
+[PARTITION-B] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-A] Committing: Operation[36c3 READ key=account:101 val=null]
+[PARTITION-B] Committing: Operation[eda8 WRITE key=account:103 val=10000]
+[PARTITION-B] COMMITTED: key=account:103
+=== TRANSACTION COMMITTED: 262fe7fd-2259-4f5f-9942-6751be657bcb ===
+
+Received transaction from DEMO-CLIENT: ecd907bd-9b9d-424e-a4b4-2c2f6c635e91
+
+=== COORDINATOR [COORD-ALPHA] Starting 2PC for ecd907bd-9b9d-424e-a4b4-2c2f6c635e91 ===
+--- PHASE 1: PREPARE ---
+[PARTITION-B] Preparing operation: Operation[5b10 DELETE key=temp:data val=null]
+[PARTITION-B] VOTE: YES
+[PARTITION-C] Preparing operation: Operation[8370 WRITE key=log:audit val=complete]
+[PARTITION-C] PREPARED: key=log:audit value=complete
+[PARTITION-C] VOTE: YES
+--- PHASE 2: COMMIT ---
+[PARTITION-B] Committing: Operation[5b10 DELETE key=temp:data val=null]
+[PARTITION-C] Committing: Operation[8370 WRITE key=log:audit val=complete]
+[PARTITION-C] COMMITTED: key=log:audit
+=== TRANSACTION COMMITTED: ecd907bd-9b9d-424e-a4b4-2c2f6c635e91 ===
+
+Client closed connection: /127.0.0.1

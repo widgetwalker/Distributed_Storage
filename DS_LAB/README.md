@@ -12,5 +12,6 @@ This folder contains 10 fundamental distributed systems experiments implemented 
 8. **19. Distributed Sorting**: Parallel Merge/Quick sort logic.
 9. **20. MapReduce**: Word count simulation via Map-Reduce paradigm.
 10. **21. Prime Calculation**: Distributed numerical ranges for prime search.
+11. **Clock Sync**: A basic clock synchronization averaging algorithm (Java).
 
-Each subfolder contains separate files to be run on different systems or network terminals. Use IP addresses to connect nodes across characters.
+Each subfolder contains separate files to be run on different systems or network terminals. Use IP addresses to connect nodes across systems.

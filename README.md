@@ -1,67 +1,61 @@
-# 🪐 Distributed Systems Portfolio
-![Lab Status](https://img.shields.io/badge/Laboratory-DS__LAB%20(11/11)-blueviolet?style=for-the-badge)
-![Languages](https://img.shields.io/badge/Stack-Python%20|%20Java-blue?style=for-the-badge)
-![GitHub](https://img.shields.io/badge/Repo-Distributed__Systems-orange?style=for-the-badge)
+# Distributed Systems Research & Implementation
 
 A comprehensive collection of distributed systems research, large-scale applications, and fundamental algorithms. This repository spans from low-level socket coordination to high-level multi-tier Java applications.
 
----
-
 ## 🏗️ Core Distributed Projects
 
-| Project | Language | Description | Link |
-| :--- | :---: | :--- | :---: |
-| **QUIZ MASTER** | Java | A multi-tier, GUI-based distributed quiz application with Server-Client architecture. | [View Project](./QUIZ_MASTER) |
-| **DS LAB** | Python | A collection of 11 core distributed algorithms refactored for modern network execution. | [View Project](./DS_LAB) |
-| **Distributed Chat** | Python | A multi-room chat server implementation supporting concurrent users. | [View Project](./distributed_chat) |
-| **Distributed Storage** | Python | Implementation of scalable storage nodes with data replication logic. | [View Project](./distributed_storage) |
-| **Collaborative Editor** | Python | Real-time concurrent editing system using version vectors and conflict resolution. | [View Project](./collaborative_editing) |
-| **RMI Systems** | Python | Remote Method Invocation (RMI) and simulate RPC simulations. | [View Project](./rmi_systems) |
+### 1. [Distributed Transactions (2PC)](./transactions)
+Implementation of the Two-Phase Commit protocol with a central coordinator and multiple data partitions. Includes an interactive client and standalone server.
+
+### 2. [DS Lab (11 Experiments)](./DS_LAB)
+A structured implementation of classic distributed algorithms refactored for modern network execution.
+- **Lamport & Berkeley Sync**
+- **Ricart-Agrawala & Lamport Mutex**
+- **Distributed Sorting & MapReduce**
+- **NEW: Clock Synchronization Averaging**
+
+### 3. [Collaborative Editing](./collaborative_editing)
+Shared document state management with synchronization logic.
+
+### 4. [Distributed Chat](./distributed_chat)
+Socket-based multi-user communication system.
+
+### 5. [Distributed Storage](./distributed_storage)
+Research and implementation of distributed data storage and replication.
+
+### 6. [QUIZ_MASTER](./QUIZ_MASTER)
+A multi-tier Java application using RMI for a distributed quiz system.
+
+### 7. [RMI Systems](./rmi_systems)
+A collection of Java Remote Method Invocation examples and arithmetic servers.
 
 ---
 
-## 🧪 The DS Lab (11 Experiments)
-*A structured implementation of classic distributed algorithms refactored for modern network execution.*
-
-| Exp | Module | Aim | Status |
-| :--- | :--- | :--- | :---: |
-| 03 | **Message Passing** | Bidirectional communication between two processes. | ✅ |
-| 04 | **Lamport Clock** | Logical clock algorithm for event ordering. | ✅ |
-| 08 | **Berkeley Sync** | Master-Slave clock synchronization. | ✅ |
-| 10 | **Lamport Mutex** | Distributed Mutual Exclusion (Shared Queue). | ✅ |
-| 11 | **Ricart-Agrawala** | Optimized Mutex (Deferred Replies). | ✅ |
-| 13 | **Chat App** | simple Distributed Chat Application using sockets. | ✅ |
-| 16 | **Deadlock Detect** | Distributed Deadlock Detection (Wait-for graph). | ✅ |
-| 19 | **Dist. Sorting** | Merge Sort / Quick Sort across worker nodes. | ✅ |
-| 20 | **MapReduce** | Data processing simulation for Word Count. | ✅ |
-| 21 | **Prime Calc** | Calculation of primes across split ranges. | ✅ |
-| 22 | **Parallel Search** | Distributed file search using keyword matching. | ✅ |
-
----
-
-## 🛠️ Global Setup Notes
-
-### **Network Configuration**
-All internal projects and lab experiments are designed for **multi-machine execution**. 
-- **Binding**: Masters/Servers bind to `0.0.0.0` to listen on all interfaces.
-- **Connecting**: Clients/Workers use the host machine's LAN IP address (e.g., `192.168.x.x`).
-
----
+## 🧪 Network Configuration
+All projects are designed for multi-machine execution.
+- **Binding**: Servers typically bind to `0.0.0.0` to listen on all interfaces.
+- **Connecting**: Clients should use the host machine's LAN IP address (e.g., `192.168.x.x`).
 
 ## 📊 Technical Architecture
 ```mermaid
 graph TD
     Root[Distributed Systems Repo] --> JavaApp[QUIZ_MASTER]
     Root --> Lab[DS_LAB - 11 Exps]
+    Root --> Trans[Distributed Transactions]
     Root --> Chat[Distributed Chat]
     Root --> Storage[Distributed Storage]
     Root --> Editor[Collaborative Editing]
     Root --> RMI[RMI Systems]
-    Root --> Search[Parallel File Search]
-
-    JavaApp -- "Java Sockets/RMI" --> JClients[Multi-tier Clients]
-    Lab -- "Parallel Execution" --> Workers[Worker Node Network]
+    
+    JavaApp -- "Java RMI" --> JClients[Quiz Clients]
+    Lab -- "Parallel Execution" --> Workers[Worker Nodes]
+    Trans -- "2PC Protocol" --> Coord[Coordinator]
     Storage -- "Replication" --> Replica[Data Nodes]
 ```
 
-*Maintained by widgetwalker/Distributed_Storage*
+## 🛠️ Requirements
+- **Java**: JDK 21+
+- **Python**: 3.8+
+- **Git**: For version control
+
+Maintained by **widgetwalker**.
